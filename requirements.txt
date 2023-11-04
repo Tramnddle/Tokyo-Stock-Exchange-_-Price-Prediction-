@@ -130,3 +130,4 @@ websocket-client==1.6.4
 wheel==0.41.3
 widgetsnbextension==4.0.9
 zipp==3.17.0
+plotly==5.8.2
