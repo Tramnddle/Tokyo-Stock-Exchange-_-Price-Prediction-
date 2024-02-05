@@ -148,4 +148,4 @@ scikit-learn==1.3.0
 tensorflow==2.14
 tensorflow-estimator==2.14
 tensorboard==2.14
-keras>=2.13.1
+keras==2.14.0
