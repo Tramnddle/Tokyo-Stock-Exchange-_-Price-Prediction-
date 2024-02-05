@@ -125,6 +125,7 @@ def windowed_df_to_date_X_y(windowed_dataframe):
   return dates, X.astype(np.float32), Y.astype(np.float32)
 
 # Call the functions without displaying the results
+st.set_option('deprecation.showPyplotGlobalUse', False)
 dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, 
                                 '2020-12-03', 
                                 '2021-12-03', 
