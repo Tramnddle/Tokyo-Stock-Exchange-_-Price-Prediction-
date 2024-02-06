@@ -151,8 +151,16 @@ dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled
 
 dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
 
+import urllib.request
+
+# Download the model file from GitHub
+model_url = "https://github.com/Tramnddle/Tokyo-Stock-Exchange-_-Price-Prediction-/blob/8e6f0811ed5cfc9e502203d163bfbefe6930cdff/LSTM_stockprediction_model.keras"
+local_model_file = "LSTM_stockprediction_model.keras"
+urllib.request.urlretrieve(model_url, local_model_file)
+
 # Load the model
-model = load_model("https://github.com/Tramnddle/Tokyo-Stock-Exchange-_-Price-Prediction-/blob/8e6f0811ed5cfc9e502203d163bfbefe6930cdff/LSTM_stockprediction_model.keras")
+model = load_model(local_model_file)
+
 # Plot prediction
 train_predictions = model.predict(X_train).flatten()
 test_predictions = model.predict(X_test).flatten()
