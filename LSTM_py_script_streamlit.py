@@ -154,8 +154,8 @@ dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_
 import urllib.request
 
 # Download the model file from GitHub
-model_url = "https://github.com/Tramnddle/Tokyo-Stock-Exchange-_-Price-Prediction-/blob/8e6f0811ed5cfc9e502203d163bfbefe6930cdff/LSTM_stockprediction_model.keras"
-local_model_file = "LSTM_stockprediction_model.keras"
+model_url = "https://github.com/Tramnddle/Tokyo-Stock-Exchange-_-Price-Prediction-/blob/081d3975e10b9999ee9a12b68881918bd972c27c/LSTM_stockprediction_model.h5"
+local_model_file = "LSTM_stockprediction_model.h5"
 urllib.request.urlretrieve(model_url, local_model_file)
 
 # Load the model
