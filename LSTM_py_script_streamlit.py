@@ -151,12 +151,22 @@ dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled
 
 dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
 
-import urllib.request
+from google.cloud import storage
 
-# Download the model file from GitHub
-model_url = "https://github.com/Tramnddle/Tokyo-Stock-Exchange-_-Price-Prediction-/blob/081d3975e10b9999ee9a12b68881918bd972c27c/LSTM_stockprediction_model.h5"
-local_model_file = "LSTM_stockprediction_model.h5"
-urllib.request.urlretrieve(model_url, local_model_file)
+# Initialize Google Cloud Storage client
+client = storage.Client()
+
+# Define your Google Cloud Storage bucket name and model file path
+bucket_name = 'tokyostockexchange'
+model_blob_name = 'gs://tokyostockexchange/LSTM_stockprediction_model.keras'
+
+# Get the bucket
+bucket = client.get_bucket(bucket_name)
+
+# Download the model file from Google Cloud Storage
+blob = bucket.blob(model_blob_name)
+local_model_file = 'LSTM_stockprediction_model.h5'
+blob.download_to_filename(local_model_file)
 
 # Load the model
 model = load_model(local_model_file)
