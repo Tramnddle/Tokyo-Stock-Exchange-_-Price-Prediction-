@@ -152,7 +152,7 @@ dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled
 dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
 
 # Load the model
-model = load_model('LSTM_stockprediction_model.keras')
+model = load_model(r'C:\Github\Tokyo-Stock-Exchange-_-Price-Prediction-\LSTM_stockprediction_model.keras')
 
 # Plot prediction
 train_predictions = model.predict(X_train).flatten()
