@@ -56,8 +56,6 @@ plt.title('Close Price')
 plt.legend()
 st.pyplot()
 
-# Call the functions without displaying the results
-st.set_option('deprecation.showPyplotGlobalUse', False)
 
 import datetime
 def str_to_datetime(s):
@@ -127,11 +125,9 @@ def windowed_df_to_date_X_y(windowed_dataframe):
 
   return dates, X.astype(np.float32), Y.astype(np.float32)
 
+with st.echo():
+    dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, '2020-12-03', '2021-12-03', n=5))
 
-dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, 
-                                '2020-12-03', 
-                                '2021-12-03', 
-                                n=5))
 
 from sklearn.preprocessing import MinMaxScaler
 
