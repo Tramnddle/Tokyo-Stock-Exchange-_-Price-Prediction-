@@ -129,6 +129,7 @@ with st.echo():
     dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, '2020-12-03', '2021-12-03', n=5))
 
 
+
 from sklearn.preprocessing import MinMaxScaler
 
 X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
