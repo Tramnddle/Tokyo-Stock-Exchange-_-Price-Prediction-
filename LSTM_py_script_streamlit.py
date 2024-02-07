@@ -157,9 +157,9 @@ from google.cloud import storage
 client = storage.Client()
 
 # Define your Google Cloud Storage bucket name and model file path
-bucket_name = 'tokyostockexchange'
-#model_blob_name = 'gs://tokyostockexchange/LSTM_stockprediction_model.keras'
-model_blob_name = 'https://storage.cloud.google.com/tokyostockexchange/LSTM_stockprediction_model.keras'
+bucket_name = 'lstm_model_stockexchange'
+model_blob_name = 'gs://lstm_model_stockexchange/LSTM_stockprediction_model.h5'
+
 # Get the bucket
 bucket = client.get_bucket(bucket_name)
 
