@@ -139,96 +139,96 @@ from sklearn.preprocessing import MinMaxScaler
 
 if X is not None:
     X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
-
-    # Now apply the MinMaxScaler
-    min_max_scaler = MinMaxScaler()
-    X_scaled = min_max_scaler.fit_transform(X_flat)
-    y_scaled = min_max_scaler.fit_transform(y.reshape(-1, 1))
-    # reshape it back
-    X_scaled_reshaped = X_scaled.reshape(X.shape[0], X.shape[1], -1)
-
-    # Calculate the length of the training data by taking 80% of the total length of the 'date' array
-    q_80 = int(len(dates) * .8)
-
-    dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled[:q_80]
-
-    dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
-
-    from google.cloud import storage
-
-    # Initialize Google Cloud Storage client
-    client = storage.Client()
-
-    # Define your Google Cloud Storage bucket name and model file path
-    bucket_name = 'lstm_model_stockexchange'
-    model_blob_name = 'LSTM_stockprediction_model.h5'  # Path within the bucket
-
-    # Get the bucket
-    bucket = client.get_bucket(bucket_name)
-
-    # Download the model file from Google Cloud Storage
-    blob = bucket.blob(model_blob_name)
-    local_model_file = 'LSTM_stockprediction_model.h5'
-    blob.download_to_filename(local_model_file)
-
-    # Load the model
-    model = load_model(local_model_file)
-
-
-    # Plot prediction
-    train_predictions = model.predict(X_train).flatten()
-    test_predictions = model.predict(X_test).flatten()
-    # Convert the scaled values back into real data
-    y_train_original = min_max_scaler.inverse_transform(y_train)
-    train_predictions_original = min_max_scaler.inverse_transform(train_predictions.reshape(-1, 1))
-    y_test_original = min_max_scaler.inverse_transform(y_test)
-    test_predictions_original = min_max_scaler.inverse_transform(test_predictions.reshape(-1, 1))
-
-    plt.figure(figsize=(12, 6))
-    plt.plot(dates_train, train_predictions_original)
-    plt.plot(dates_train, y_train_original)
-    plt.plot(dates_test, test_predictions_original)
-    plt.plot(dates_test, y_test_original)
-    plt.legend(['Training Predictions', 'Training Observations', 'Testing Predictions', 'Testing Observations'])
-
-    st.subheader('Prediction model performance in the past')
-    plt.title(f'Price prediction model of {user_inputs} in the past')
-    st.pyplot()
-
-    # Loading predict dataset
-    Predict = conn.read("gs://tokyostockexchange/stock_prices_predict.csv", input_format="csv")
-    Predict.loc[:, "Date"] = pd.to_datetime(Predict.loc[:, "Date"], format="%Y-%m-%d")
-    Predict.index = Predict.pop('Date')
-    Pr_selectedstock = Predict[Predict["SecuritiesCode"] == int(user_inputs)]
-    data = data.drop('Target', axis=1)
-    Pr_selectedstock = pd.concat([data, Pr_selectedstock], axis=0)
-
-    dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(Pr_selectedstock,
-                                      '2021-12-06',
-                                      '2021-12-07',
-                                      n=5))
-
-    X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
-
-    # Now apply the MinMaxScaler
-    X_scaled = min_max_scaler.fit_transform(X_flat)
-    y_scaled = min_max_scaler.fit_transform(y.reshape(-1, 1))
-    # reshape it back
-    X_predict = X_scaled.reshape(X.shape[0], X.shape[1], -1)
-
-    Predictions_selectedstock = model.predict(X_predict).flatten()
-    O_Pred_selected_stock = min_max_scaler.inverse_transform(Predictions_selectedstock.reshape(-1, 1))
-
-    dates_string = ' and '.join([str(date) for date in dates])
-    predictions_string = ' and '.join([str(prediction[0]) for prediction in O_Pred_selected_stock])
-
-    # Display the text only when needed
-    if st.button("Show Predictions"):
-        st.write(f'The predicted price of {user_inputs} on {dates_string} are {predictions_string}')
-
 else:
     # Handle the case where X is None (e.g., display an error message or return early)
     print("Error: X is None, unable to reshape.")
+    
+# Now apply the MinMaxScaler
+min_max_scaler = MinMaxScaler()
+X_scaled = min_max_scaler.fit_transform(X_flat)
+y_scaled = min_max_scaler.fit_transform(y.reshape(-1, 1))
+# reshape it back
+X_scaled_reshaped = X_scaled.reshape(X.shape[0], X.shape[1], -1)
+
+# Calculate the length of the training data by taking 80% of the total length of the 'date' array
+q_80 = int(len(dates) * .8)
+
+dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled[:q_80]
+
+dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
+
+from google.cloud import storage
+
+# Initialize Google Cloud Storage client
+client = storage.Client()
+
+# Define your Google Cloud Storage bucket name and model file path
+bucket_name = 'lstm_model_stockexchange'
+model_blob_name = 'LSTM_stockprediction_model.h5'  # Path within the bucket
+# Get the bucket
+bucket = client.get_bucket(bucket_name)
+
+# Download the model file from Google Cloud Storage
+blob = bucket.blob(model_blob_name)
+local_model_file = 'LSTM_stockprediction_model.h5'
+blob.download_to_filename(local_model_file)
+
+# Load the model
+model = load_model(local_model_file)
+
+
+# Plot prediction
+train_predictions = model.predict(X_train).flatten()
+test_predictions = model.predict(X_test).flatten()
+# Convert the scaled values back into real data
+y_train_original = min_max_scaler.inverse_transform(y_train)
+train_predictions_original = min_max_scaler.inverse_transform(train_predictions.reshape(-1, 1))
+y_test_original = min_max_scaler.inverse_transform(y_test)
+test_predictions_original = min_max_scaler.inverse_transform(test_predictions.reshape(-1, 1))
+
+plt.figure(figsize=(12, 6))
+plt.plot(dates_train, train_predictions_original)
+plt.plot(dates_train, y_train_original)
+plt.plot(dates_test, test_predictions_original)
+plt.plot(dates_test, y_test_original)
+plt.legend(['Training Predictions', 'Training Observations', 'Testing Predictions', 'Testing Observations'])
+
+st.subheader('Prediction model performance in the past')
+plt.title(f'Price prediction model of {user_inputs} in the past')
+st.pyplot()
+
+# Loading predict dataset
+Predict = conn.read("gs://tokyostockexchange/stock_prices_predict.csv", input_format="csv")
+Predict.loc[:, "Date"] = pd.to_datetime(Predict.loc[:, "Date"], format="%Y-%m-%d")
+Predict.index = Predict.pop('Date')
+Pr_selectedstock = Predict[Predict["SecuritiesCode"] == int(user_inputs)]
+data = data.drop('Target', axis=1)
+Pr_selectedstock = pd.concat([data, Pr_selectedstock], axis=0)
+
+dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(Pr_selectedstock,
+                                          '2021-12-06',
+                                          '2021-12-07',
+                                          n=5))
+
+X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
+
+# Now apply the MinMaxScaler
+X_scaled = min_max_scaler.fit_transform(X_flat)
+y_scaled = min_max_scaler.fit_transform(y.reshape(-1, 1))
+# reshape it back
+X_predict = X_scaled.reshape(X.shape[0], X.shape[1], -1)
+
+Predictions_selectedstock = model.predict(X_predict).flatten()
+O_Pred_selected_stock = min_max_scaler.inverse_transform(Predictions_selectedstock.reshape(-1, 1))
+
+dates_string = ' and '.join([str(date) for date in dates])
+predictions_string = ' and '.join([str(prediction[0]) for prediction in O_Pred_selected_stock])
+
+# Display the text only when needed
+if st.button("Show Predictions"):
+            st.write(f'The predicted price of {user_inputs} on {dates_string} are {predictions_string}')        
+
+
 
 
 
