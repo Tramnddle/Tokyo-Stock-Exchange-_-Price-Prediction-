@@ -62,8 +62,6 @@ def str_to_datetime(s):
   return datetime.datetime.strptime(str(s), '%Y-%m-%d')
 
 
-
-
 def df_to_windowed_df(dataframe, first_date_str, last_date_str, n):
   first_date = str_to_datetime(first_date_str)
   last_date  = str_to_datetime(last_date_str)
@@ -117,17 +115,16 @@ def df_to_windowed_df(dataframe, first_date_str, last_date_str, n):
 
 
 def windowed_df_to_date_X_y(windowed_dataframe):
+  df_as_np = windowed_dataframe.to_numpy()
 
-    df_as_np = windowed_dataframe.to_numpy()
+  dates = df_as_np[:, 0]
 
-    dates = df_as_np[:, 0]
+  middle_matrix = df_as_np[:, 1:-1]
+  X = middle_matrix.reshape((len(dates), middle_matrix.shape[1], 1))
 
-    middle_matrix = df_as_np[:, 1:-1]
-    X = middle_matrix.reshape((len(dates), middle_matrix.shape[1], 1))
+  Y = df_as_np[:, -1]
 
-    Y = df_as_np[:, -1]
-
-    return dates, X.astype(np.float32), Y.astype(np.float32)
+  return dates, X.astype(np.float32), Y.astype(np.float32)
 
 
 dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, '2020-12-03', '2021-12-03', n=5, display_dataframe=False))
