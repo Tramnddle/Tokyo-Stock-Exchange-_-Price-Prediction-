@@ -113,12 +113,9 @@ def df_to_windowed_df(dataframe, first_date_str, last_date_str, n, display_dataf
 
     if display_dataframe:
         return ret_df
-    else:
-        return None
+
 
 def windowed_df_to_date_X_y(windowed_dataframe):
-    if windowed_dataframe is None:
-        return None, None, None
 
     df_as_np = windowed_dataframe.to_numpy()
 
@@ -137,11 +134,8 @@ dates, X, y = windowed_df_to_date_X_y(df_to_windowed_df(data, '2020-12-03', '202
 
 from sklearn.preprocessing import MinMaxScaler
 
-if X is not None:
-    X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
-else:
-    # Handle the case where X is None (e.g., display an error message or return early)
-    print("Error: X is None, unable to reshape.")
+X_flat = X.reshape(X.shape[0], -1)  # This will flatten the timesteps while keeping the samples intact
+
     
 # Now apply the MinMaxScaler
 min_max_scaler = MinMaxScaler()
