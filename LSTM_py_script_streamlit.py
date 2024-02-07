@@ -158,7 +158,7 @@ client = storage.Client()
 
 # Define your Google Cloud Storage bucket name and model file path
 bucket_name = 'lstm_model_stockexchange'
-model_blob_name = 'gs://lstm_model_stockexchange/LSTM_stockprediction_model.h5'
+model_blob_name = 'LSTM_stockprediction_model.h5'  # Path within the bucket
 
 # Get the bucket
 bucket = client.get_bucket(bucket_name)
@@ -170,6 +170,7 @@ blob.download_to_filename(local_model_file)
 
 # Load the model
 model = load_model(local_model_file)
+
 
 # Plot prediction
 train_predictions = model.predict(X_train).flatten()
