@@ -111,9 +111,6 @@ def df_to_windowed_df(dataframe, first_date_str, last_date_str, n, display_dataf
 
     ret_df['Target'] = Y
 
-    if display_dataframe:
-        return ret_df
-
 
 def windowed_df_to_date_X_y(windowed_dataframe):
 
