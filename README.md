@@ -1,4 +1,4 @@
-# JPX Tokyo Stock Exchange Prediction Project (https://www.kaggle.com/competitions/jpx-tokyo-stock-exchange-prediction)
+# [JPX Tokyo Stock Exchange Prediction](https://www.kaggle.com/competitions/jpx-tokyo-stock-exchange-prediction)
 
 This project is focused on predicting stock performance on the JPX Tokyo Stock Exchange and enabling users to interact with stock data, explore historical trends, and create investment portfolios. The project includes deploying a user-friendly app, ranking stocks by expected returns, and implementing machine learning models for predictions.
 
