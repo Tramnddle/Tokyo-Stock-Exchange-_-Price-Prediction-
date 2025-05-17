@@ -150,9 +150,15 @@ dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled
 dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
 
 from google.cloud import storage
-
+import json
+from google.oauth2 import service_account
 # Initialize Google Cloud Storage client
-client = storage.Client()
+gcs_credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["connections.gcs"]
+)
+
+client = storage.Client(credentials=gcs_credentials, project=gcs_credentials.project_id)
+
 
 # Define your Google Cloud Storage bucket name and model file path
 bucket_name = 'lstm_model_stockexchange'
