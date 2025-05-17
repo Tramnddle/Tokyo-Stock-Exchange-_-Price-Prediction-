@@ -154,7 +154,7 @@ from google.oauth2 import service_account
 
 # Load credentials from secrets
 gcs_credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["connections.gcs"]
+    st.secrets["connections_gcs"]
 )
 
 # Initialize GCS client
