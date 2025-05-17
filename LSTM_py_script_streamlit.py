@@ -163,13 +163,13 @@ client = storage.Client(credentials=gcs_credentials, project=gcs_credentials.pro
 
 # Define your Google Cloud Storage bucket name and model file path
 bucket_name = 'lstm_model_stockexchange'
-model_blob_name = 'LSTM_stockprediction_model.h5'  # Path within the bucket
+model_blob_name = 'LSTM_stockprediction_model.keras'  # Path within the bucket
 # Get the bucket
 bucket = client.get_bucket(bucket_name)
 
 # Download the model file from Google Cloud Storage
 blob = bucket.blob(model_blob_name)
-local_model_file = 'LSTM_stockprediction_model.h5'
+local_model_file = 'LSTM_stockprediction_model.keras'
 blob.download_to_filename(local_model_file)
 
 
