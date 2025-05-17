@@ -18,7 +18,7 @@ secrets = st.secrets["connections_gcs"]
 secret_value = os.environ.get('connections_gcs')
 
 # Create a GCS connection
-conn = st.experimental_connection('gcs', type=FilesConnection)
+conn = st.connection('gcs', type=FilesConnection)
 
 # Read a file from the cloud storage
 df = conn.read("gs://tokyostockexchange/stock_prices.csv", input_format="csv")
