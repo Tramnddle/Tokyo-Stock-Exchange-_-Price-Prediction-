@@ -40,7 +40,7 @@ df['Date'] = df['Date'].astype('M8[ns]')
 st.title('Price Forecast/Tokyo Stock Exchange JPX (2017-01-04 to 2021-12-03)')
 user_inputs = st.text_input('Enter Stock Codes (comma-separated)', '6201')  # Example input
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 
 data = df[df["SecuritiesCode"]==int(user_inputs)]
 
