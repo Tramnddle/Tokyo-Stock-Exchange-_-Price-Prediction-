@@ -172,9 +172,9 @@ blob = bucket.blob(model_blob_name)
 local_model_file = 'LSTM_stockprediction_model.h5'
 blob.download_to_filename(local_model_file)
 
-# Load the model
-model = load_model(local_model_file)
 
+# Load the model
+model = load_model(local_model_file, compile=False)
 
 # Plot prediction
 train_predictions = model.predict(X_train).flatten()
