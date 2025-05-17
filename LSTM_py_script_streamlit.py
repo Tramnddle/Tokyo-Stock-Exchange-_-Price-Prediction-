@@ -14,8 +14,8 @@ from keras.models import load_model
 import gcsfs
 import os
 
-secrets = st.secrets["connections_gcs"]
-secret_value = os.environ.get('connections_gcs')
+#secrets = st.secrets["connections_gcs"]
+#secret_value = os.environ.get('connections_gcs')
 
 # Create a GCS connection
 conn = st.connection('gcs', type=FilesConnection)
