@@ -150,13 +150,14 @@ dates_train, X_train, y_train = dates[:q_80], X_scaled_reshaped[:q_80], y_scaled
 dates_test, X_test, y_test = dates[q_80:], X_scaled_reshaped[q_80:], y_scaled[q_80:]
 
 from google.cloud import storage
-import json
 from google.oauth2 import service_account
-# Initialize Google Cloud Storage client
+
+# Load credentials from secrets
 gcs_credentials = service_account.Credentials.from_service_account_info(
     st.secrets["connections.gcs"]
 )
 
+# Initialize GCS client
 client = storage.Client(credentials=gcs_credentials, project=gcs_credentials.project_id)
 
 
